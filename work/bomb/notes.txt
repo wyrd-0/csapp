@@ -1,0 +1,29 @@
+bomb: the bomb takes input line-by-line from a file called infile
+
+phase_1: simple string comparison. find string in executable, and add it to
+infile
+
+phase_2: requires 1 as first values, then checks that each of five subsequent
+input numbers is twice the previous number
+
+phase_3: takes two numbers, jumps based on first to value to which to compare 
+second, many viable combinations
+
+phase_4: performs two checks; the second uses a recursive function called func4
+zero works for both tests
+
+phase_5: takes 6-char string, and uses four low bits of each character to
+construnct a new string from a string hidden at the beginning of another in the
+executable
+
+phase_6: requires numbers 1-6 as input, then switches them to their additive
+inverse mod 7 (2->5, 3->4, etc.). These serve to order a linked list
+Then the newly made list is checked against a linked list to make sure that each of the first five nodes are greater than
+next node
+
+secret_phase: accessed by adding the string "DrEvil" (w/o quotes) to the end of 
+the input line for phase_4; the phase takes a single integer input from the
+seventh line of infile that must be <= 1001 (0x3e9); a recursive function
+nameed func7 is then called. the input is used to navigate through a tree and
+perfom oppertations on the return value based on whether the number at the
+current node is <, >, or == the input.
