@@ -1,0 +1,31 @@
+All raw.txt files were produced using the hex2raw binary
+
+##ctarget##
+
+ctargetl1: very simple buffer overflow. all that was done was to fill the 40
+bytes on the stack reserved by getbuff, and placing after them the address of
+touch1()
+
+ctargetl2: requires finding the address of the stack pointer when getbuf()
+returns. Then that 8-byte address can be placed on the stack (after the buffer 
+overflow) which directs execution to machine instructions which immediately
+follow the address itself. The instructions need only to load the cookie value
+into $rdi and push the address of touch2() onto the stack, then return. gcc and 
+objump were used to create the machine instructions for this level and the next.
+
+ctargetl3: the same as level 2, with the slight variation that an 8-byte string
+with a 9th terminating 00 byte must be placed on the stack, the address of this
+string must be moved into $rdi, and touch3() must be called. This will require
+adjusting the address that follows the overflow using simple arithmetic.
+
+rtargetl2: since the stack is not executable, the addresses of gagdets have to
+be loaded onto the stack after the overflow. The cookie value can be passed in
+the overflow string, popped off of the stack, then moved to $rdi. Then touch2()
+can be called.
+
+rtargetl3: uses gadgets to move $rsp to $rdi (rsp>rax>rdi). Then pops the
+distance in bytes from the address now in $rdi to the beginning of the string
+representation of the cookie (in this case 72 {0x48} bytes) in to $rax. Then
+moves that value to $esi thus: (eax>edx>ecx>esi). Then uses lea to add $rdi to
+$rsi and load the result into $rax. Then again moves rax>rdi. Then calls
+touch3(). The cookie string is found after all gadget addresses.
